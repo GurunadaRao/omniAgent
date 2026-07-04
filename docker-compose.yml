@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/api.Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - redis
+      - mongodb
+
+  planner-service:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/planner.Dockerfile
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - redis
+
+  execution-service:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/execution.Dockerfile
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - redis
+
+  report-service:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/report.Dockerfile
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - redis
+
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
