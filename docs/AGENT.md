@@ -22,44 +22,44 @@ Build a production-grade distributed multi-agent research system capable of conv
 
 # Folder Ownership
 
-### planner-service
+### Layer 1: Planning Layer (`planner-service`)
 **Owner**: Member 1
 
 **Responsibilities**
-- Planning
+- Query Decomposition & Planning
 - Prompt Engineering
-- RAG
-- Task Graph
+- RAG & Vector DB Retrieval
+- Task Graph (DAG) Construction
 
 *Never modify Execution Service.*
 
 ---
 
-### execution-service
-**Owner**: Member 2 (You)
+### Layer 2: Execution Layer (`execution-service`)
+**Owner**: Member 2
 
 **Responsibilities**
-- BullMQ
-- Workers
-- Scheduler
-- Retry
-- Dead Letter Queue
-- Tool Registry
+- BullMQ Queue Orchestration
+- Distributed Redis Lock Management
+- Workers (Web, Browser, LLM)
+- Task Scheduler & Retry Engine
+- Dead Letter Queue (DLQ) Handling
+- Central Tool Registry Integration
 
 *Never place planning logic here.*
 
 ---
 
-### report-service
+### Layer 3: Citation & Summariser Layer (`report-service`)
 **Owner**: Member 3
 
 **Responsibilities**
-- Merge Results
-- Citations
-- Markdown
-- PDF Generation
+- Merging Intermediate Worker Results
+- Citation Extraction & Deduplication
+- Summary & Report Synthesis
+- Output Generation (Markdown, HTML, PDF)
 
-*Never execute tasks here.*
+*Never execute worker tasks here.*
 
 ---
 
