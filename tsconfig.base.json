@@ -8,6 +8,13 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "declaration": true,
-    "sourceMap": true
+    "sourceMap": true,
+    "baseUrl": ".",
+    "paths": {
+      "@omni/database/*": ["packages/database/*"],
+      "@omni/events/*": ["packages/events/*"],
+      "@omni/sdk/*": ["packages/sdk/*"],
+      "@omni/shared/*": ["packages/shared/*"]
+    }
   }
 }

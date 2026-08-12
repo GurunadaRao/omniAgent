@@ -109,11 +109,11 @@ sequenceDiagram
 
 ## 2. Team Structure & Component Ownership
 
-| Member | Primary Service | Key Responsibilities | Domain Boundaries |
+| Layer | Service | Key Responsibilities | Domain Boundaries |
 | :--- | :--- | :--- | :--- |
-| **Member 1** | **Planner Service** | • Construct task graphs (DAGs)<br>• Manage prompt engineering templates<br>• Query Vector DB (Qdrant) for RAG context<br>• Store planned tasks in MongoDB | Must never write worker execution rules or call execution message queues directly. |
-| **Member 2** | **Execution Service** | • Orchestrate BullMQ queues & Redis channels<br>• Manage worker pool Lifecycles<br>• Run parallel executions & enforce timeouts<br>• Handle tool registration and fallbacks | Must never contain planning logic, user prompt templating, or RAG embeddings generation. |
-| **Member 3** | **Report Service** | • Aggregate multi-source results<br>• De-duplicate and verify citations<br>• Format outputs to Markdown, HTML, and PDF<br>• Compile final answers | Must never execute worker tasks or handle queue retries. |
+| **Layer 1** | **Planning Layer** (`planner-service`) | • Construct task graphs (DAGs)<br>• Manage prompt engineering templates<br>• Query Vector DB (Qdrant) for RAG context<br>• Store planned tasks in MongoDB | Must never write worker execution rules or call execution message queues directly. |
+| **Layer 2** | **Execution Layer** (`execution-service`) | • Orchestrate BullMQ queues & Redis channels<br>• Manage worker pool lifecycles (Web, Browser, LLM)<br>• Run parallel executions & enforce timeouts<br>• Handle tool registration and fallbacks | Must never contain planning logic, user prompt templating, or RAG embeddings generation. |
+| **Layer 3** | **Citation & Summariser Layer** (`report-service`) | • Aggregate multi-source worker outputs<br>• Extract, verify, & de-duplicate citations<br>• Format outputs to Markdown, HTML, and PDF<br>• Synthesize final analytical report | Must never execute worker tasks or handle queue retries. |
 
 ---
 
